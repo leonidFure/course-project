@@ -10,6 +10,6 @@ import javax.transaction.Transactional
 open interface UserRepository: PagingAndSortingRepository<UserEntity, Long> {
     fun findByeMail(eMail: String): Optional<UserEntity>
     fun findByPhoneNumber(phoneNumber: String): Optional<UserEntity>
-    fun findByeMailAndIdNot(eMail: String, id: Long): Optional<UserEntity>
-    fun findByPhoneNumberAndIdNot(phoneNumber: String, id: Long): Optional<UserEntity>
+    fun existsByPhoneNumberAndIdNot(phoneNumber: String, id: Long): Boolean
+    fun existsByeMailAndIdNot(eMail: String, id: Long): Boolean
 }

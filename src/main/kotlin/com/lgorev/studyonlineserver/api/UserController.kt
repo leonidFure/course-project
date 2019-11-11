@@ -67,6 +67,4 @@ class UserController(private val userService: UserService) {
             res.message = e.message ?: "User not found."
         }
     }
-
-
 }

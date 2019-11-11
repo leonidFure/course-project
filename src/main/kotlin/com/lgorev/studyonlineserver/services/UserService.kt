@@ -37,6 +37,7 @@ open class UserService(private val userRepository: UserRepository) {
         userRepository.save(model.toEntity())
     }
 
+    @Throws(NotFoundException::class)
     fun getUserById(id: Long) = userRepository
             .findById(id)
             .orElseThrow {
@@ -44,18 +45,17 @@ open class UserService(private val userRepository: UserRepository) {
             }
             .toModel()
 
+    @Throws(UniqueConstraintException::class)
     fun update(model: UserModel): SuccessResultModel {
         log.info("Try to update user with id: ${model.id}.")
-        userRepository
-                .findByeMailAndIdNot(model.mail, model.id)
-                .orElseThrow {
-                    UniqueConstraintException("User with email: ${model.mail} already exists.")
-                }
-        userRepository
-                .findByPhoneNumberAndIdNot(model.phoneNumber, model.id)
-                .orElseThrow {
-                    UniqueConstraintException("User with phone number: ${model.phoneNumber} already exists.")
-                }
+        if (userRepository.existsByeMailAndIdNot(model.mail, model.id)) {
+            log.warn("User with email: ${model.mail} already exists.")
+            throw UniqueConstraintException("User with email: ${model.mail} already exists.")
+        }
+        if (userRepository.existsByPhoneNumberAndIdNot(model.phoneNumber, model.id)) {
+            log.warn("User with phone number: ${model.phoneNumber} already exists.")
+            throw UniqueConstraintException("User with phone number: ${model.phoneNumber} already exists.")
+        }
 
         log.info("User with id ${model.id} successfully updated.")
         userRepository.save(model.toEntity())
@@ -90,5 +90,4 @@ open class UserService(private val userRepository: UserRepository) {
     } else {
         PageRequest.of(page, size)
     }
-
 }
