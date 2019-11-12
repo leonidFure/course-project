@@ -19,8 +19,21 @@ class TutorController (val tutorService: TutorService) {
             tutorService.save(model)
         } catch (e: NotFoundException) {
             res.code = 2
-            res.message = e.message?: "User not found"
+            res.message = e.message?: "Tutor not found."
         }
         return res
     }
+
+    @PutMapping
+    fun update(@RequestBody model: RequestTutorModel): GeneralResultModel {
+        val res = GeneralResultModel()
+        try {
+            tutorService.update(model)
+        } catch (e: NotFoundException) {
+            res.code = 2
+            res.message = e.message?: "Tutor not found."
+        }
+        return res
+    }
+
 }

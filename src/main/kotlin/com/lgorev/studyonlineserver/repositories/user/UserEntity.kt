@@ -24,12 +24,17 @@ data class UserEntity(
         val patronymic: String? = null,
         @Column(name = "birth_date", nullable = false)
         val birthDate: LocalDate = LocalDate.now(),
-        @Column(name = "email", nullable = false, unique = true)
+        @Column(name = EMAIL, nullable = false, unique = true)
         val eMail: String = "",
         @Column(name = "sex", nullable = false)
         val sex: String = "",
-        @Column(name = "phone_number", nullable = false, unique = true)
+        @Column(name = PHONE_NUMBER, nullable = false, unique = true)
         val phoneNumber: String = "",
         @Column(name = "_password", nullable = false)
         val password: String = ""
-)
+) {
+    companion object {
+        const val EMAIL = "email"
+        const val PHONE_NUMBER = "phone_number"
+    }
+}

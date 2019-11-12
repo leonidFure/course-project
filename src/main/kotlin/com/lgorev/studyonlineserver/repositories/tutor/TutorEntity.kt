@@ -10,7 +10,7 @@ data class TutorEntity(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "_id", nullable = false)
-        val id: Int = 0,
+        val id: Long = 0,
         @Column(name = "experience", nullable = false)
         val experience: LocalDate = LocalDate.now(),
         @Column(name = "_info")
